@@ -32,7 +32,7 @@ fi
 
 # Install required packages
 /usr/bin/apt update -y
-/usr/bin/apt install -y openjdk-8-jre
+/usr/bin/apt install -y openjdk-11-jre
 /usr/bin/apt install -y elasticsearch \
                         logstash \
                         kibana \
