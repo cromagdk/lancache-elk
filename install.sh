@@ -22,13 +22,6 @@ fi
 : "${KIBANA_USERNAME:?must be set}"
 : "${KIBANA_PASSWORD:?must be set}"
 
-# Add the elastic public key
-/usr/bin/wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-
-# Add elastic apt repo if it does not already exist
-if [[ ! -f /etc/apt/sources.list.d/elastic-6.x.list ]]; then
-    echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list
-fi
 
 # Install required packages
 /usr/bin/apt update -y
@@ -38,7 +31,17 @@ fi
                         kibana \
                         nginx \
                         jq \
-                        apache2-utils
+                        apache2-utils \
+			curl \
+			gpg2
+
+# Add the elastic public key
+/usr/bin/wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+# Add elastic apt repo if it does not already exist
+if [[ ! -f /etc/apt/sources.list.d/elastic-6.x.list ]]; then
+    echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list
+fi
 
 # Configure Nginx as reverse proxy for Kibana
 rm -f /etc/nginx/sites-enabled/default
